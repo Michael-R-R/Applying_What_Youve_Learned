@@ -1,0 +1,74 @@
+* CSE240 Board Game Application *
+
+* MainWindow
+- game : Game
+- board : Board
+
+* Tile : QWidget
+- vLayout : QVBoxLayout
+- position : QPoint
+- color : QColor
+- heldPiece : BasePiece
+
+* Board : QTableWidget
+~ 8x8 grid of Tiles
++ tileClicked(Tile* tile) : signal
+
+* Player : QObject
+- id : int
+- color : QColor
+- pieces : vector<BasePiece>
+- phase : Phase
+- tempTile : Tile
++ turnEnded() : signal
++ pieceRemoved() : signal
++ emptied() : signal
+
+* BasePiece : QObject
+# vLayout : QVBoxLayout
+# banner : QProgressBar
+# title : QLabel
+# type : int
+# id : int
+# teamId : int
+# health : int
+# damage : int
+# position : QPoint<int>
++ highlightMoves(Board board) : void
++ highlightAttacks(Board board) : void
++ doMove(int x, int y) : bool
++ doAttack(int x, int y) : bool
++ getters/setters
+
+* BarbarianPiece
+~ type = 1
+~ Health = 30
+~ Damage = 5
+~ Color: dark red
+~ Can move up to 1 tile at a time in direction of: N, E, S, W
+~ Hits all adjacent tiles in 360 degrees
+
+* RangerPiece
+~ type = 2
+~ Health = 15
+~ Damage = 3
+~ Color: green
+~ Can move up to 1 tile at a time in direction of: N, E, S, W
+~ Hits up to 3 tiles in any direction of: N, E, S, W
+
+* RougePiece
+~ type = 3
+~ Health = 12
+~ Damage = 10
+~ Color: dark blue
+~ Can move up to 2 tiles at a time in direction of: NE, SE, SW, NW
+~ Hits up to 1 tile in any direction of: N, S, S, N
+
+* Game : QObject
+- player1 : Player
+- player2 : Player
+- currPlayer : Player
+- roundCount : int
++ initialize() : void
++ start() : void
+- onTurnEnded(id) : void slot
